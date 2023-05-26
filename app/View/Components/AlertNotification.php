@@ -13,7 +13,7 @@ class AlertNotification extends Component
      */
     public function __construct()
     {
-
+//
     }
 
     /**
