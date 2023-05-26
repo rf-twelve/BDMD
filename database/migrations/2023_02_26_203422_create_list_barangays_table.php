@@ -15,6 +15,15 @@ return new class extends Migration
     {
         Schema::create('list_barangays', function (Blueprint $table) {
             $table->id();
+            $table->string('region_id')->nullable();
+            $table->string('province_id')->nullable();
+            $table->string('municity_id')->nullable();
+            $table->string('name')->nullable();
+            $table->string('code')->nullable();
+            $table->string('index')->nullable();
+            $table->string('urban_rural')->nullable();
+            $table->string('population')->nullable();
+            $table->integer('is_active')->nullable();
             $table->timestamps();
         });
     }

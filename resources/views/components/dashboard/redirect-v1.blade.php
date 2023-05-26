@@ -37,9 +37,9 @@
         <div>
             <div class="flex p-2 mt-1 rounded-md shadow-sm">
                 <div class="relative flex items-stretch flex-grow focus-within:z-10">
-                    <x-form.input-text wire:model.lazy='tn_received' type="search" placeholder="Enter Tracking Number" class="pl-2 border rounded-none rounded-l-md"/>
+                    <x-form.input-text wire:model.debounce.500='tn_received' type="search" placeholder="Enter Tracking Number" class="pl-2 border rounded-none rounded-l-md"/>
                 </div>
-                <x-form.button wire:click='receive()' class="relative inline-flex items-center -ml-px space-x-2 border-gray-300 rounded-none rounded-r-md bg-gray-50 hover:bg-gray-100">
+                <x-form.button wire:click='receivedDocument()' class="relative inline-flex items-center -ml-px space-x-2 border-gray-300 rounded-none rounded-r-md bg-gray-50 hover:bg-gray-100">
                     <x-icon.arrow-down-on-square class="w-6 h-6" /><span>Receive</span>
                 </x-form.button>
             </div>
@@ -60,9 +60,9 @@
         <div>
             <div class="flex p-2 mt-1 rounded-md shadow-sm">
                 <div class="relative flex items-stretch flex-grow focus-within:z-10">
-                    <x-form.input-text type="search" placeholder="Enter Tracking Number" class="pl-2 border rounded-none rounded-l-md"/>
+                    <x-form.input-text wire:model.debounce.500='tn_released' type="search" placeholder="Enter Tracking Number" class="pl-2 border rounded-none rounded-l-md"/>
                 </div>
-                <x-form.button class="relative inline-flex items-center -ml-px space-x-2 border-gray-300 rounded-none rounded-r-md bg-gray-50 hover:bg-gray-100">
+                <x-form.button wire:click="releaseDocument()" class="relative inline-flex items-center -ml-px space-x-2 border-gray-300 rounded-none rounded-r-md bg-gray-50 hover:bg-gray-100">
                     <x-icon.arrow-up-on-square class="w-6 h-6" /><span>Release</span>
                 </x-form.button>
             </div>

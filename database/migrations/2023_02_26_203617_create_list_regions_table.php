@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('list_regions', function (Blueprint $table) {
             $table->id();
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->string('index')->nullable();
+            $table->integer('is_active')->nullable();
             $table->timestamps();
         });
     }

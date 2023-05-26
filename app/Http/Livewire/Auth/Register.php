@@ -38,7 +38,7 @@ class Register extends Component
 
         $this->notify('Successfully registered!');
 
-        return to_route('User Dashboard',['user_id'=>auth()->user()->id]);
+        return to_route('Dashboard',['user_id'=>auth()->user()->id]);
     }
 
     public function render()

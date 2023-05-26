@@ -1,3 +1,32 @@
+<div x-data="{openSidebarMobile:false}">
+    <div class="min-h-screen bg-gray-100 ">
+        <x-sidebar-mobile />
+
+        {{-- ##################### --}}
+        <!-- Static sidebar for desktop -->
+        <x-sidebar-desktop />
+
+        <!-- Main column -->
+        <div class="flex flex-col lg:pl-64">
+
+            <!-- Topbar Mobile -->
+            {{-- <x-topbar-mobile /> --}}
+
+            <main class="flex-1">
+
+    <!-- Topbar Desktop -->
+    <x-topbar-desktop>
+        <li class="flex">
+            <div class="flex items-center">
+                <svg class="flex-shrink-0 w-6 h-full text-gray-200" viewBox="0 0 24 44" preserveAspectRatio="none" fill="currentColor" xmlns="http://www.w3.org/2000/svg"aria-hidden="true">
+                    <path d="M.293 0l22 22-22 22h1.414l22-22-22-22H.293z" />
+                </svg>
+                <a href="#" class="ml-4 text-sm font-medium text-white hover:text-blue-200">
+                    USER MANAGEMENT
+                </a>
+            </div>
+        </li>
+    </x-topbar-desktop>
 
 
 <div class="relative z-0 overflow-hidden bg-white sm:flex">
@@ -89,6 +118,7 @@
                     <thead class="bg-gray-50">
                     <tr class="py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">
                         <th scope="col">NAME</th>
+                        <th scope="col">ACCESS</th>
                         <th scope="col">CREATE</th>
                         <th scope="col">READ</th>
                         <th scope="col">UPDATE</th>
@@ -98,10 +128,16 @@
                     <tbody class="bg-white divide-y divide-gray-200">
                     @forelse ($permission_list as $value => $permission)
                     <tr>
-                        <td>{{ $value }}</td>
-                        @foreach ($action_array as $action)
+                        <td>{{ strtoupper($value) }}</td>
+                        @foreach (App\Models\User::ACTIONS as $action)
                         <td>
-                            <input {{ $user_permission->where('name',$value.'-'.$action)->first() ? 'checked' : '' }} type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                            <a href="#" wire:click="togglePermissionForUser('{{ $value.'-'.$action }}')" >
+                                @if ($user_permission->contains($value.'-'.$action))
+                                    <x-icon.circle-check class="w-6 h-6 text-blue-500" />
+                                @else
+                                    <x-icon.circle-times class="w-6 h-6 text-red-500" />
+                                @endif
+                            </a>
                         </td>
                         @endforeach
                     </tr>
@@ -113,9 +149,9 @@
                     <!-- More people... -->
                     </tbody>
                 </table>
-                <x-button wire:click="assignPermissionModal()" type="button" class="hover:bg-blue-500 hover:text-white">
+                {{-- <x-button wire:click="assignPermissionModal()" type="button" class="hover:bg-blue-500 hover:text-white">
                     Set User Permission
-                </x-button>
+                </x-button> --}}
                 <x-button wire:click="createPermissionModal()" type="button" class="hover:bg-blue-500 hover:text-white">
                     + Add Permission
                 </x-button>
@@ -203,7 +239,7 @@
     </x-modal.dialog>
 
     {{-- ADD PERMISSION MODAL --}}
-    <x-modal.dialog wire:model="addPermissionModal">
+    <x-modal.dialog wire:model="permission_modal">
         <x-slot name="title">
             PERMISSION
         </x-slot>
@@ -211,8 +247,37 @@
         <x-slot name="content">
             <div class="col-span-6 sm:col-span-4">
                 <label for="permission_name" class="text-sm">Permission Name :</label>
-                <x-input wire:model.lazy="permission_name" id="permission_name" type="text" autocomplete="off" placeholder="Enter Name"/>
+                <x-input wire:model.debounce.500="permission_name" id="permission_name" type="text" autocomplete="off" placeholder="Enter Name"/>
                 @error('permission_name')<x-comment class="text-red-500">*{{ $message }}</x-comment>@enderror
+            </div>
+            <div class="col-span-6 sm:col-span-4">
+
+            @if ($permission_name != null || $permission_name != "")
+            <ul role="list" class="divide-y divide-gray-200">
+                <li class="relative px-4 py-5 bg-white hover:bg-gray-50 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600">
+                <div class="flex justify-between space-x-3">
+                    <div class="flex-1 min-w-0">
+                    <span href="#" class="block focus:outline-none">
+                        <span class="absolute inset-0" aria-hidden="true"></span>
+                        <p class="text-sm font-medium text-gray-900 truncate">Note: List of permissions will be created.</p>
+                        <p class="text-sm text-gray-500 truncate">{{ $permission_name."-access" }} -
+                            <i>Permission to access.</i></p>
+                        <p class="text-sm text-gray-500 truncate">{{ $permission_name."-create" }} -
+                            <i>Permission to create.</i></p>
+                        <p class="text-sm text-gray-500 truncate">{{ $permission_name."-read" }} -
+                            <i>Permission to read.</i></p>
+                        <p class="text-sm text-gray-500 truncate">{{ $permission_name."-update" }} -
+                            <i>Permission to update.</i></p>
+                        <p class="text-sm text-gray-500 truncate">{{ $permission_name."-delete" }} -
+                            <i>Permission to delete.</i></p>
+                    </span>
+                    </div>
+                </div>
+                </li>
+            </ul>
+            @endif
+
+
             </div>
         </x-slot>
 
@@ -246,7 +311,26 @@
     </div>
 
     <!-- ASSIGN USER PERMISSION CONFIRMATION -->
-        <x-modal.dialog wire:model="assign_permission_confirmation">
+    <div>
+        <form wire:submit.prevent="saveUserPermission">
+            <x-modal.confirmation wire:model.defer="assign_permission_confirmation" selectedIcon="confirm">
+                <x-slot name="title">Permission Confirmation</x-slot>
+
+                <x-slot name="content">
+                    <div class="py-8 text-gray-700">Assign or remove if exist this permission "{{ $assign_user_permission_name }}" permission?</div>
+                </x-slot>
+
+                <x-slot name="footer">
+                    <x-button type="button" wire:click.prevent="$set('assign_permission_confirmation', false)">Cancel</x-button>
+
+                    <x-button type="submit">Yes</x-button>
+                </x-slot>
+            </x-modal.confirmation>
+        </form>
+    </div>
+
+    <!-- ASSIGN USER PERMISSION CONFIRMATION -->
+        {{-- <x-modal.dialog wire:model="assign_permission_confirmation">
             <x-slot name="title">
                 Set User Permission
             </x-slot>
@@ -265,38 +349,26 @@
                         </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200">
-                        @forelse ($permission_list as $key => $permission)
-                        <tr>
-                            <td>{{ $key }}</td>
-                            @forelse ($permission as $index => $value)
-                            <td>
-                                {{-- {{ $user_permission }} --}}
-                                @if ($edit_permission_key !== $key)
-                                    <input {{ (in_array($value->name,$user_permission->toArray()) ? 'checked' : '') }} disabled
-                                        type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded">
-                                @else
-                                    <input wire:model="user_permission_model.{{ $key }}.$value->name" value=""
-                                       type="checkbox" class="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
-                                @endif
+                            @forelse ($permission_list as $value => $permission)
+                            <tr>
+                                <td>{{ strtoupper($value) }}</td>
+                                @foreach (App\Models\User::ACTIONS as $action)
+                                <td>
+                                    {{ $value.'-'.$action }}
+                                    <a href="#" wire:click="togglePermissionForUser('{{ $value.'-'.$action }}')" >
+                                    @if ($user_permission->contains($value.'-'.$action))
+                                        <x-icon.circle-check class="w-6 h-6 text-blue-500" />
+                                    @else
+                                        <x-icon.circle-times class="w-6 h-6 text-red-500" />
+                                    @endif
+                                    </a>
 
-                            </td>
+                                </td>
+                                @endforeach
+                            </tr>
                             @empty
+                            <tr><td colspan="5" class="text-center">No Permission Found!</td></tr>
                             @endforelse
-                            <td>
-                                @if ($edit_permission_key !== $key)
-                                    <button wire:click.defer="userPermissionEdit({{ $key }})" class="text-red-500"
-                                        type="button"><x-icon.edit class="w-4" /></button>
-                                @else
-                                    <button wire:click.defer="$set('user_permission_model_edit',false)" class="text-blue-500"
-                                        type="button"><x-icon.circle-check class="w-4" /></button>
-                                @endif
-
-                            </td>
-                        </tr>
-                        <tr><td colspan="5"></td></tr>
-                        @empty
-                        <tr><td colspan="5" class="text-center">No Permission Found!</td></tr>
-                        @endforelse
                         </tbody>
                     </table>
                     <x-button type="submit" class="hover:bg-blue-500 hover:text-white">
@@ -307,9 +379,15 @@
 
             <x-slot name="footer">
                 <x-button wire:click="closeAssignPermission()" type="button" class="text-white bg-gray-400 hover:bg-gray-500">
-                    {{ __('Cancel') }}
+                    {{ __('Close') }}
                 </x-button>
             </x-slot>
-        </x-modal.dialog>
+        </x-modal.dialog> --}}
+    </div>
+</div>
+
+
+            </main>
+        </div>
     </div>
 </div>

@@ -2,6 +2,7 @@
 
 namespace App\View\Components\Header;
 
+use App\Models\Company;
 use Illuminate\View\Component;
 
 class Navbar extends Component
@@ -23,6 +24,8 @@ class Navbar extends Component
      */
     public function render()
     {
-        return view('components.header.navbar');
+        return view('components.header.navbar',[
+            'company'=>Company::find(1),
+        ]);
     }
 }

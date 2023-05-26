@@ -24,7 +24,7 @@ return new class extends Migration
             $table->unsignedBigInteger('menu_bar_id')->index();
             $table->foreign('menu_bar_id')
                 ->references('id')
-                ->on('docs')
+                ->on('menu_bars')
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
         });

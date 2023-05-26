@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('list_municities', function (Blueprint $table) {
             $table->id();
+            $table->string('region_id')->nullable();
+            $table->string('province_id')->nullable();
+            $table->string('code')->nullable();
+            $table->string('name')->nullable();
+            $table->string('index')->nullable();
+            $table->integer('is_active')->nullable();
             $table->timestamps();
         });
     }

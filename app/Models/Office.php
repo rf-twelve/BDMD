@@ -11,4 +11,16 @@ class Office extends Model
     protected $guarded = [];
     protected $casts = ['id' => 'integer'];
 
+
+    public function users()
+    {
+        // return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
+    }
+
+    public function documents()
+    {
+        return $this->belongsToMany(Doc::class, 'doc_office');
+    }
+
 }

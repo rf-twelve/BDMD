@@ -15,20 +15,18 @@ return new class extends Migration
     {
         Schema::create('offices', function (Blueprint $table) {
             $table->id();
-            $table->string('office_id');
-            $table->string('user_sent');
-            $table->string('date_sent');
-            $table->string('user_received');
-            $table->string('date_received');
-            $table->string('status');
+            $table->string('code');
+            $table->string('name');
+            $table->string('author_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('doc_id')->index();
-            $table->foreign('doc_id')
-                ->references('id')
-                ->on('docs')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
+
+        Schema::create('office_user', function (Blueprint $table) {
+            $table->foreignId('office_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->timestamps();
+        });
+
     }
 
     /**

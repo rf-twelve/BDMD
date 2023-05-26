@@ -4,6 +4,9 @@ namespace App\Http\Livewire\User;
 
 use App\Models\AuditTrail;
 use App\Models\Doc;
+use Carbon\Carbon;
+use Carbon\CarbonInterval;
+use DateTime;
 use DateTimeImmutable;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Component;
@@ -17,10 +20,78 @@ class Dashboard extends Component
 
     public function create()
     {
-        return redirect(route('Create Document',[
+        return redirect(route('create-document',[
             'user_id'=>Auth()->user()->id,
             'tn'=>date('Y-md-hms').'-'.rand(1000,date('Y'))
             ]));
+    }
+
+    public function releaseDocument()
+    {
+        $doc = Doc::with('audit_trails')->where('tn',$this->tn_released)->first();
+        $audit_data = $doc->audit_trails;
+        if (count($audit_data) > 0) {
+            $audit_prev = $audit_data->sortByDesc('date_time')->first();
+            if ($audit_prev->trail == 'origin' || $audit_prev->trail == 'received') {
+                $date_time_current = date('Y-m-d H:i:s', time());
+                // Compute difference and convert to readable format
+                $diff = Carbon::parse($audit_prev->date_time)->diffForHumans(Carbon::parse($date_time_current), [
+                    'parts' => 6,
+                    'short' => true,
+                    'syntax' => Carbon::DIFF_ABSOLUTE,
+                ]);
+
+                $doc->audit_trails()->create([
+                    'date_time' => $date_time_current,
+                    'trail' => 'release',
+                    'office_id' => auth()->user()->office_id,
+                    'user_id' => auth()->user()->id,
+                    'start' => $audit_prev->date_time,
+                    'end' => $date_time_current,
+                    'elapse' => $diff,
+                    'is_open' => 1,
+                ]);
+                $this->notify('Document(Tracking: '.$this->tn_released.') released, Successfully!');
+                $this->tn_released = '';
+            } else {
+                $this->notify('Document(Tracking: '.$this->tn_released.') not for release!');
+            }
+        }
+
+    }
+
+    public function receivedDocument()
+    {
+        $doc = Doc::with('audit_trails')->where('tn',$this->tn_released)->first();
+        $audit_data = $doc->audit_trails;
+        if (count($audit_data) > 0) {
+            $audit_prev = $audit_data->sortByDesc('date_time')->first();
+            if ($audit_prev->trail == 'origin' || $audit_prev->trail == 'received') {
+                $date_time_current = date('Y-m-d H:i:s', time());
+                // Compute difference and convert to readable format
+                $diff = Carbon::parse($audit_prev->date_time)->diffForHumans(Carbon::parse($date_time_current), [
+                    'parts' => 6,
+                    'short' => true,
+                    'syntax' => Carbon::DIFF_ABSOLUTE,
+                ]);
+
+                $doc->audit_trails()->create([
+                    'date_time' => $date_time_current,
+                    'trail' => 'release',
+                    'office_id' => auth()->user()->office_id,
+                    'user_id' => auth()->user()->id,
+                    'start' => $audit_prev->date_time,
+                    'end' => $date_time_current,
+                    'elapse' => $diff,
+                    'is_open' => 1,
+                ]);
+                $this->notify('Document(Tracking: '.$this->tn_released.') released, Successfully!');
+                $this->tn_released = '';
+            } else {
+                $this->notify('Document(Tracking: '.$this->tn_released.') not for release!');
+            }
+        }
+
     }
 
     function receive()

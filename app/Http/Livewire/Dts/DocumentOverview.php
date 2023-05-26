@@ -11,9 +11,79 @@ use Livewire\Component;
 class DocumentOverview extends Component
 {
     public $doc_id;
+    public $tn;
+    public $date;
+    public $received_by;
+    public $title;
+    public $origin;
+    public $nature;
+    public $class;
+    public $class_name;
+    public $for;
+    public $for_name;
+    public $status;
+    public $remarks;
+    public $author_fullname;
+    public $author_id;
+    public $updated_by;
+
+    public $docs;
+    public $action_takens;
+    public $tracks;
+    public $images;
+    public $offices;
     public $showDeleteSelectedRecordModal = false;
 
-    public function mount($id){ $this->doc_id = $id; }
+    public function mount($id)
+    {
+        $this->doc_id = $id;
+        $this->setFields($id);
+    }
+
+    public function setFields($id)
+    {
+        $this->docs = Doc::query()
+            ->with('action_takens', 'tracks','images','offices')
+            ->find($id);
+        $this->action_takens = $this->docs->action_takens;
+        $this->tracks = $this->docs->tracks;
+        $this->images = $this->docs->images;
+        $this->offices = $this->docs->offices;
+        $this->tn = $this->docs['tn'];
+        $this->date = $this->docs['date'];
+        $this->received_by = $this->docs['received_by'];
+        $this->title = $this->docs['title'];
+        $this->origin = $this->docs['origin'];
+        $this->nature = $this->docs['nature'];
+        $this->class = $this->docs['class'];
+        $this->class_name = $this->docs->DocumentClass;
+        $this->for = $this->docs['for'];
+        $this->for_name = $this->docs->DocumentFor;
+        $this->status = $this->docs['status'];
+        $this->remarks = $this->docs['remarks'];
+        $this->author_id = $this->docs->author_id;
+        $this->author_fullname = $this->docs->author_fullname;
+        $this->updated_by = $this->docs['updated_by'];
+    }
+
+    public function render()
+    {
+        return view('livewire.dts.document-overview');
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public function deleteSingleRecord()
     {
@@ -95,12 +165,12 @@ class DocumentOverview extends Component
         # code...
     }
 
-    public function render()
-    {
-        return view('livewire.dts.document-overview',[
-            'document' => Doc::with('audit_trails', 'action_takens')
-                ->where('id',$this->doc_id)
-                ->first(),
-        ]);
-    }
+    // public function render()
+    // {
+    //     return view('livewire.dts.document-overview',[
+    //         'document' => Doc::with('audit_trails', 'action_takens')
+    //             ->where('id',$this->doc_id)
+    //             ->first(),
+    //     ]);
+    // }
 }
