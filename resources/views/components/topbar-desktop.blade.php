@@ -1,4 +1,4 @@
-<nav class="flex bg-blue-500 border-b border-gray-200" aria-label="Breadcrumb">
+<nav class="flex bg-indigo-500 border-b border-gray-200" aria-label="Breadcrumb">
     <ol role="list" class="flex w-full max-w-screen-xl px-4 mx-auto space-x-4 sm:px-6 lg:px-8">
         <li class="flex">
             <div class="flex items-center">

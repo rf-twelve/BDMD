@@ -2,27 +2,24 @@
 
 use App\Http\Livewire\Auth\Login;
 use App\Http\Livewire\Auth\Register;
-use App\Http\Livewire\Bgmd\ChargeSlip;
-use App\Http\Livewire\Bgmd\ChargeSlipCreate;
-use App\Http\Livewire\Bgmd\ChargeSlipEdit;
-use App\Http\Livewire\Bgmd\ChargeSlips;
-use App\Http\Livewire\Bgmd\Equipment;
-use App\Http\Livewire\Bgmd\EquipmentCreate;
-use App\Http\Livewire\Bgmd\EquipmentEdit;
-use App\Http\Livewire\Bgmd\Equipments;
-use App\Http\Livewire\Bgmd\MaintenanceRequestForm;
-use App\Http\Livewire\Bgmd\MaintenanceRequestFormCreate;
-use App\Http\Livewire\Bgmd\MaintenanceRequestFormEdit;
-use App\Http\Livewire\Bgmd\MaintenanceRequestForms;
-use App\Http\Livewire\Bgmd\Vehicle;
-use App\Http\Livewire\Bgmd\VehicleCreate;
-use App\Http\Livewire\Bgmd\VehicleEdit;
-use App\Http\Livewire\Bgmd\Vehicles;
-use App\Http\Livewire\Bgmd\WorkOrderSlip;
-use App\Http\Livewire\Bgmd\WorkOrderSlipCreate;
-use App\Http\Livewire\Bgmd\WorkOrderSlipEdit;
-use App\Http\Livewire\Bgmd\WorkOrderSlips;
-use App\Http\Livewire\Dts\PrivacyPolicy;
+
+use App\Http\Livewire\Bgmd\PageChargeSlip;
+use App\Http\Livewire\Bgmd\PageEquipment;
+use App\Http\Livewire\Bgmd\PageMachinery;
+use App\Http\Livewire\Bgmd\PageMaintenanceRequest;
+use App\Http\Livewire\Bgmd\PagePrintEquipmentList;
+use App\Http\Livewire\Bgmd\PagePrintMachineryList;
+use App\Http\Livewire\Bgmd\PagePrintMaintenanceRequestList;
+use App\Http\Livewire\Bgmd\PagePrintVehicleList;
+use App\Http\Livewire\Bgmd\PageVehicle;
+use App\Http\Livewire\Bgmd\PageViewChargeSlip;
+use App\Http\Livewire\Bgmd\PageViewEquipment;
+use App\Http\Livewire\Bgmd\PageViewMachinery;
+use App\Http\Livewire\Bgmd\PageViewMaintenanceRequest;
+use App\Http\Livewire\Bgmd\PageViewVehicle;
+use App\Http\Livewire\Bgmd\PageViewWorkOrderSlip;
+use App\Http\Livewire\Bgmd\PageWorkOrderSlip;
+
 use App\Http\Livewire\Settings\CompanyProfile;
 use App\Http\Livewire\User\Dashboard as UserDashboard;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +40,7 @@ use App\Http\Livewire\Settings\UsersManagement;
 
 */
 // Privacy Policy
-Route::get('/privacy-policy', PrivacyPolicy::class)->name('Privacy Policy');
+// Route::get('/privacy-policy', PrivacyPolicy::class)->name('Privacy Policy');
 
 // Credentials
 Route::get('/', Login::class)->name('login');
@@ -55,32 +52,25 @@ Route::group(['prefix' => 'user',  'middleware' => 'auth'], function()
 {
     Route::get('{user_id}/dashboard', UserDashboard::class)->name('dashboard');
 
-    Route::get('{user_id}/charge-slips', ChargeSlips::class)->name('charge-slips');
-    Route::get('{user_id}/charge-slip/{id}', ChargeSlip::class)->name('charge-slip');
-    Route::get('{user_id}/charge-slip/{id}/create', ChargeSlipCreate::class)->name('charge-slip.create');
-    Route::get('{user_id}/charge-slip/{id}/edit', ChargeSlipEdit::class)->name('charge-slip.edit');
+    Route::get('{user_id}/charge-slip-list', PageChargeSlip::class)->name('charge-slip-list');
+    Route::get('{user_id}/equipment-list', PageEquipment::class)->name('equipment-list');
+    Route::get('{user_id}/vehicle-list', PageVehicle::class)->name('vehicle-list');
+    Route::get('{user_id}/machinery-list', PageMachinery::class)->name('machinery-list');
+    Route::get('{user_id}/work-order-slip-list', PageWorkOrderSlip::class)->name('work-order-slip-list');
+    Route::get('{user_id}/maintenance-request-list', PageMaintenanceRequest::class)->name('maintenance-request-list');
 
-    Route::get('{user_id}/equipments', Equipments::class)->name('equipments');
-    Route::get('{user_id}/equipment/{id}', Equipment::class)->name('equipment');
-    Route::get('{user_id}/equipment/{id}/create', EquipmentCreate::class)->name('equipment.create');
-    Route::get('{user_id}/equipment/{id}/edit', EquipmentEdit::class)->name('equipment.edit');
+    Route::get('{user_id}/charge-slip-view/{id}', PageViewChargeSlip::class)->name('charge-slip-view');
+    Route::get('{user_id}/equipment-view/{id}', PageViewEquipment::class)->name('equipment-view');
+    Route::get('{user_id}/vehicle-view/{id}', PageViewVehicle::class)->name('vehicle-view');
+    Route::get('{user_id}/machinery-view/{id}', PageViewMachinery::class)->name('machinery-view');
+    Route::get('{user_id}/work-order-slip-view/{id}', PageViewWorkOrderSlip::class)->name('work-order-slip-view');
+    Route::get('{user_id}/maintenance-request-view/{id}', PageViewMaintenanceRequest::class)->name('maintenance-request-view');
 
-    Route::get('{user_id}/maintenance-request-forms', MaintenanceRequestForms::class)->name('maintenance-request-forms');
-    Route::get('{user_id}/maintenance-request-form/{id}', MaintenanceRequestForm::class)->name('maintenance-request-form');
-    Route::get('{user_id}/maintenance-request-form/{id}/create', MaintenanceRequestFormCreate::class)->name('maintenance-request-form.create');
-    Route::get('{user_id}/maintenance-request-form/{id}/edit', MaintenanceRequestFormEdit::class)->name('maintenance-request-form.edit');
+    Route::get('{user_id}/vehicle-print-list', PagePrintVehicleList::class)->name('vehicle-print-list');
+    Route::get('{user_id}/equipment-print-list', PagePrintEquipmentList::class)->name('equipment-print-list');
+    Route::get('{user_id}/machinery-print-list', PagePrintMachineryList::class)->name('machinery-print-list');
+    Route::get('{user_id}/maintenance-request-print-list', PagePrintMaintenanceRequestList::class)->name('maintenance-request-print-list');
 
-    Route::get('{user_id}/vehicles', Vehicles::class)->name('vehicles');
-    Route::get('{user_id}/vehicle/{id}', Vehicle::class)->name('vehicle');
-    Route::get('{user_id}/vehicle/{id}/create', VehicleCreate::class)->name('vehicle.create');
-    Route::get('{user_id}/vehicle/{id}/edit', VehicleEdit::class)->name('vehicle.edit');
-
-    Route::get('{user_id}/work-order-slips', WorkOrderSlips::class)->name('work-order-slips');
-    Route::get('{user_id}/work-order-slip/{id}', WorkOrderSlip::class)->name('work-order-slip');
-    Route::get('{user_id}/work-order-slip/{id}/create', WorkOrderSlipCreate::class)->name('work-order-slip.create');
-    Route::get('{user_id}/work-order-slip/{id}/edit', WorkOrderSlipEdit::class)->name('work-order-slip.edit');
-
-    Route::get('{user_id}/vehicle-maintenance-log/{vehicle_id}', ChargeSlipCreate::class)->name('vehicle-maintenance-log');
     ## USER MANAGEMENT
     Route::get('{user_id}/company-profile', CompanyProfile::class)->name('company-profile');
     Route::get('{user_id}/profile-settings', ProfileSettings::class)->name('profile-settings');

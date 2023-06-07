@@ -23,4 +23,9 @@ class Vehicle extends Model
             return User::find($this->author_id) ? (User::find($this->author_id))->fullname : '(Unknown)';
         }
 
+    public function file_images()
+    {
+        return $this->hasMany(FileImage::class, 'imageable_id');
+    }
+
 }

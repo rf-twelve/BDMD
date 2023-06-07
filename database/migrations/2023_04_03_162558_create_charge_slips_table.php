@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('for')->nullable();
             $table->string('prepared_by')->nullable();
             $table->string('noted_by')->nullable();
-            $table->string('author_id')->nullable();
+            $table->string('encoder_id')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('vehicle_id')->index();
             $table->foreign('vehicle_id')

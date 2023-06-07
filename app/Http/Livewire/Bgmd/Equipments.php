@@ -31,7 +31,6 @@ class Equipments extends Component
     public $searchTerm = '';
     public $sortField = 'id';
     public $sortDirection = 'asc';
-    public Doc $editing;
     public $office;
     public $viewing = [];
     public $timeline = [];
@@ -104,20 +103,6 @@ class Equipments extends Component
         $this->showFormGroup = true;
         $this->showFile = false;
     }
-
-    // type
-        // make
-        // brand
-        // model
-        // year
-        // plate_no
-        // serial_no
-        // engine_no
-        // acquisition_date
-        // acquisition_cost
-        // remarks
-        // is_vehicle
-        // author_id
 
 
     public function addAction(){

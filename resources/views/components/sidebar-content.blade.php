@@ -1,4 +1,4 @@
-<div class="flex flex-col flex-1 overflow-y-auto bg-blue-500">
+<div class="flex flex-col flex-1 overflow-y-auto bg-indigo-500">
     <!-- User account dropdown -->
     <div x-data="{userDropdown:false}" class="relative inline-block px-3 my-2 text-left">
         <div>
@@ -77,37 +77,56 @@
                 class="flex items-center w-full py-2 pl-2 pr-1 text-sm font-medium text-left text-blue-700 bg-blue-200 rounded-md hover:bg-gray-50 hover:text-gray-900 group focus:outline-none focus:ring-2 focus:ring-indigo-500"
                 aria-controls="sub-menu-4" aria-expanded="false">
                 <x-icon.document class="flex-shrink-0 w-6 h-6 mr-3" />
-                <span class="flex-1"> BGMD </span>
+                <span class="flex-1"> TRANSACTIONS </span>
                 <!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
                 <x-icon.arrow-head class="flex-shrink-0 w-5 h-5 ml-3 text-gray-300 transition-colors duration-150 ease-in-out transform rotate-90 group-hover:text-gray-400"/>
             </button>
             <!-- Expandable link section, show/hide based on state. -->
             <div class="space-y-1" id="sub-menu-4">
-                <a href="{{ route('charge-slips',['user_id'=>Auth::user()->id]) }}"
+                <a href="{{ route('charge-slip-list',['user_id'=>Auth::user()->id]) }}"
                     class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
                     <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
-                <span class="flex-1"> Charge Slips </span></a>
+                <span class="flex-1"> Charge Slip </span></a>
 
-                <a href="{{ route('equipments',['user_id'=>Auth::user()->id]) }}"
+                <a href="{{ route('maintenance-request-list',['user_id'=>Auth::user()->id]) }}"
                     class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
                     <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
-                <span class="flex-1"> Equipments </span></a>
+                <span class="flex-1"> Maintenance Request </span></a>
 
-                <a href="{{ route('maintenance-request-forms',['user_id'=>Auth::user()->id]) }}"
+                <a href="{{ route('work-order-slip-list',['user_id'=>Auth::user()->id]) }}"
                     class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
                     <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
-                <span class="flex-1"> MR Forms </span></a>
+                <span class="flex-1"> Work Order </span></a>
 
-                <a href="{{ route('vehicles',['user_id'=>Auth::user()->id]) }}"
+            </div>
+        </div>
+
+        <div class="space-y-1">
+            <!-- Current: "bg-gray-100 text-gray-900", Default: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-900" -->
+            <button type="button"
+                class="flex items-center w-full py-2 pl-2 pr-1 text-sm font-medium text-left text-blue-700 bg-blue-200 rounded-md hover:bg-gray-50 hover:text-gray-900 group focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                aria-controls="sub-menu-4" aria-expanded="false">
+                <x-icon.document class="flex-shrink-0 w-6 h-6 mr-3" />
+                <span class="flex-1"> INVENTORY </span>
+                <!-- Expanded: "text-gray-400 rotate-90", Collapsed: "text-gray-300" -->
+                <x-icon.arrow-head class="flex-shrink-0 w-5 h-5 ml-3 text-gray-300 transition-colors duration-150 ease-in-out transform rotate-90 group-hover:text-gray-400"/>
+            </button>
+            <!-- Expandable link section, show/hide based on state. -->
+            <div class="space-y-1" id="sub-menu-4">
+                <a href="{{ route('equipment-list',['user_id'=>Auth::user()->id]) }}"
                     class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
                     <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
-                <span class="flex-1"> Vehicles </span></a>
+                <span class="flex-1"> Equipment </span></a>
 
-                <a href="{{ route('work-order-slips',['user_id'=>Auth::user()->id]) }}"
+                <a href="{{ route('machinery-list',['user_id'=>Auth::user()->id]) }}"
                     class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
                     <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
-                <span class="flex-1"> Work Order Slips </span></a>
+                <span class="flex-1"> Machinery </span></a>
 
+                <a href="{{ route('vehicle-list',['user_id'=>Auth::user()->id]) }}"
+                    class="flex items-center w-full py-2 pr-2 text-sm font-medium text-blue-100 rounded-md group pl-11 hover:text-gray-900 hover:bg-gray-50">
+                    <x-icon.folder-open class="flex-shrink-0 w-5 h-5 mr-1"/>
+                <span class="flex-1"> Vehicle </span></a>
             </div>
         </div>
 

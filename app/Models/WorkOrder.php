@@ -12,4 +12,5 @@ class WorkOrder extends Model
 
     public function work_descriptions()
         { return $this->hasMany(WorkDescription::class); }
+
 }

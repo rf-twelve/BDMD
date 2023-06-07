@@ -32,10 +32,10 @@
                 </x-topbar-desktop>
 
                 <!-- Dashboard Status -->
-                {{-- <x-dashboard.stats-v1 /> --}}
+                <x-dashboard.stats-v1 />
 
                 <!-- Dashboard Redirect functions -->
-                <x-dashboard.redirect-v1 />
+                {{-- <x-dashboard.redirect-v1 /> --}}
 
             </main>
         </div>

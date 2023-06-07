@@ -2,6 +2,7 @@
 
 namespace App\View\Components;
 
+use App\Models\Company;
 use Illuminate\View\Component;
 
 class SidebarMobile extends Component
@@ -23,6 +24,8 @@ class SidebarMobile extends Component
      */
     public function render()
     {
-        return view('components.sidebar-mobile');
+        return view('components.sidebar-mobile',[
+            'company'=>Company::find(1),
+        ]);
     }
 }

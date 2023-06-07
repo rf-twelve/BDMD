@@ -19,14 +19,14 @@ return new class extends Migration
             $table->string('work_order_no')->nullable();
             $table->string('date_started')->nullable();
             $table->string('date_finished')->nullable();
-            $table->string('suppervised_by')->nullable();
-            $table->string('suppervised_date')->nullable();
+            $table->string('supervised_by')->nullable();
+            $table->string('supervised_date')->nullable();
             $table->string('approved_by')->nullable();
             $table->string('approved_date')->nullable();
             $table->string('received_by')->nullable();
             $table->string('received_date')->nullable();
             $table->string('status')->nullable();
-            $table->string('author_id')->nullable();
+            $table->string('encoder_id')->nullable();
             $table->timestamps();
             $table->unsignedBigInteger('maintenance_request_id')->index();
             $table->foreign('maintenance_request_id')

@@ -1,5 +1,5 @@
 {{-- Sample Logo: https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg --}}
-<div class="flex min-h-screen bg-white">
+<div class="flex min-h-screen bg-indigo-300">
     <div class="flex flex-col justify-center flex-1 px-4 py-12 sm:px-6 lg:flex-none lg:px-20 xl:px-24">
         <div class="w-full max-w-sm mx-auto lg:w-96">
             <div class="text-center">
@@ -24,7 +24,7 @@
                 <div class="flex items-center justify-center py-2">
                     {{-- <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500"> already </a> --}}
                     <span class="font-thin hover:text-blue-800 text-slate-800">
-                        {{ $company ? $company->developer : 'Developer Name' }}
+                        {{ $company ? $company->version : '' }}
                     </span>
                 </div>
             </div>

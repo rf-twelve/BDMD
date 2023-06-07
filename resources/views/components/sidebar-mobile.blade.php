@@ -2,7 +2,7 @@
 
     <div class="fixed inset-0 bg-gray-600 bg-opacity-75" aria-hidden="true"></div>
 
-    <div class="relative flex flex-col flex-1 w-full max-w-xs pt-5 pb-4 bg-white">
+    <div class="relative flex flex-col flex-1 w-full max-w-xs pb-4 text-white bg-indigo-200">
 
         <div class="absolute top-0 right-0 pt-2 -mr-12">
             <button type="button" x-on:click="openSidebarMobile = false"
@@ -13,10 +13,10 @@
             </button>
         </div>
 
-        <div class="flex items-center flex-shrink-0 px-4">
-            <img class="w-auto h-8"
-                src="{{ asset(env('APP_LOGO')) }}" alt="Logo">
-                <span class="font-serif font-bold text-1xl">{{ env('APP_CLIENT') }}</span>
+        <div class="flex justify-center flex-shrink-0 px-4 py-2">
+            <img class="w-auto h-8 mr-2"
+                src="{{ $company ? $company->logoUrl() : '' }}" alt="Logo">
+                <span class="text-3xl font-bold text-indigo-700 uppercase">{{ $company ? $company->name : '' }}</span>
         </div>
 
         <x-sidebar-content />

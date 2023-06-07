@@ -15,6 +15,9 @@ return new class extends Migration
     {
         Schema::create('maintenance_requests', function (Blueprint $table) {
             $table->id();
+            $table->string('class')->nullable();
+            $table->string('class_id')->nullable();
+            $table->string('for')->nullable();
             $table->string('priority_type')->nullable();
             $table->string('last_repair_date')->nullable();
             $table->string('last_repair_nature')->nullable();
@@ -31,15 +34,8 @@ return new class extends Migration
             $table->string('approved_date')->nullable();
             $table->string('work_completed_on')->nullable();
             $table->string('status')->nullable();
-            $table->string('author_id')->nullable();
+            $table->string('encoder_id')->nullable();
             $table->timestamps();
-            $table->unsignedBigInteger('vehicle_id')->index();
-            $table->unsignedBigInteger('work_order_id')->index();
-            $table->foreign('vehicle_id')
-                ->references('id')
-                ->on('vehicles')
-                ->onUpdate('cascade')
-                ->onDelete('cascade');
         });
     }
 
